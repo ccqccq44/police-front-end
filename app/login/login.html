@@ -1,0 +1,38 @@
+<!--<div class="background_img">-->
+    <!--<img src="images/dabeijing.png">-->
+<!--</div>-->
+<style>
+    body{
+        /*background-image:url(images/1.png);*/
+        background-image:url(login/images/bg.png);
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-position: center center;
+        padding:0;margin:0;
+        z-index: -999;
+        margin-bottom:230px;
+    }
+</style>
+
+
+    <div class="container" style="margin:0 auto;margin-top:250px;width:300px">
+        <!--<div class="background_img">-->
+            <!--<img src="images/background.png">-->
+        <!--</div>-->
+        <form name="userForm" ng-controller="LoginCtrl"  novalidate>
+            <!-- USERNAME -->
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" ng-model="username" placeholder="请输入用户名">
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <input type="password" name="userpassword" class="form-control" ng-model="userpassword" placeholder="请输入密码">
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-primary" ng-click="loginSubmit()" style="width:270px">登录</button>
+        </form>
+    </div>
+
+

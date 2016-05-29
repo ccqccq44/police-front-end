@@ -1,0 +1,210 @@
+<table border="1" cellpadding="10" cellspacing="0" width="100%" height="40px">
+    <tr>
+        <td bgcolor="white" width="15%">
+            {{clock.now}}
+        </td>
+
+        <td bgcolor="#b1aea7" width="70%">
+            <font color="white" size="4px"><div style="text-align:center"><B>公安防欺诈回访系统</B></div></font>
+        </td>
+
+        <td bgcolor="white" width="15%">
+            <p>{{usernamelocal}}您好！</p>
+        </td>
+    </tr>
+</table>
+
+
+<!--页面导航Tab标签-->
+<!--<nav class="navbar navbar-default" >-->
+<div class="container-fluid">
+    <ul id="myTab" class="nav nav-pills">
+        <li role="presentation" class="active"><a href="./#portal" data-toggle="pill">未处理</a></li>
+        <li role="presentation"><a href="./#deal" data-toggle="pill">已处理</a></li>
+        <li role="presentation"><a href="./#query" data-toggle="tab">查询</a></li>
+        <!--<button type="button" class="btn btn-primary navbar-btn navbar-right" ng-click="stop()" style="margin-right:10px">停止接收</button>-->
+    </ul>
+</div>
+<!--</nav>-->
+
+<div id="myTabContent" class="tab-content">
+    <!--portal页面-->
+    <div class="tab-pane fade in active" id="portal">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" style="table-layout:fixed;">
+                        <!--style="table-layout:fixed;"-->
+                        <thead>
+                        <tr>
+                            <th>诈骗号码</th>
+                            <th>被骗用户</th>
+                            <th>诈骗类型</th>
+                            <th>最近一次通话时间</th>
+                            <th>双方通话频次</th>
+                            <th>回访情况</th>
+                            <th>受骗情况</th>
+                            <th>受骗金额</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody class="nowrap">
+                        <tr ng-repeat-start="item in portalList">
+                            <td rowspan="2">{{item.crmTele}}</td>
+                            <td rowspan="2">{{item.vicTele}}</td>
+                            <td>{{item.contentType}}</td>
+                            <td style="font-size: 13px">{{item.occurTime}}</td>
+                            <td>{{item.callFrequency}}</td>
+                            <td>{{item.callbackSituation}}</td>
+                            <td>{{item.fraudSituation}}</td>
+                            <td>{{item.fraudMoney}}</td>
+                            <td style="font-size: 13px">{{item.queryTime}}</td>
+                            <!--对应后端的程序，recordTime是unix时间戳类型，queryTime是显示正常时间-->
+                        </tr>
+                        <tr>
+                            <td colspan="7">客服的回访描述：{{item.callbackDescription}}</td>
+                        </tr>
+
+                        <tr ng-repeat-end>
+                            <td>公安人员处理记录区</td>
+                            <td colspan="7">
+                            回访描述：<input type="text" value="" style="width:900px;height:22px;margin-left:10px;" ng-model="item.policeCallback"/>
+                            </td>
+                            <td>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary" ng-click="policeDeal(item)" style="width:100px;">提  交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--已处理页面-->
+    <div class="tab-pane fade" id="deal">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" style="table-layout:fixed;">
+                        <thead>
+                        <tr>
+                            <th>诈骗号码</th>
+                            <th>被骗用户</th>
+                            <th>诈骗类型</th>
+                            <th>最近一次通话时间</th>
+                            <th>双方通话频次</th>
+                            <th>回访情况</th>
+                            <th>受骗情况</th>
+                            <th>受骗金额</th>
+                            <th>处理时间</th>
+                        </tr>
+                        </thead>
+                        <tbody id="theTbody" class="nowrap">
+                        <tr ng-repeat-start="item in dealList">
+                            <td rowspan="2">{{item.crmTele}}</td>
+                            <td rowspan="2">{{item.vicTele}}</td>
+                            <td>{{item.contentType}}</td>
+                            <td style="font-size: 13px">{{item.occurTime}}</td>
+                            <td>{{item.callFrequency}}</td>
+                            <td>{{item.callbackSituation}}</td>
+                            <td>{{item.fraudSituation}}</td>
+                            <td>{{item.fraudMoney}}</td>
+                            <td>{{item.queryTime}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">客服的回访描述：{{item.callbackDescription}}</td>
+                        </tr>
+                        <tr ng-repeat-end>
+                            <td>公安人员处理记录区</td>
+                            <td colspan="7">
+                                回访描述：{{item.policeCallback}}
+                            </td>
+                            <td>
+                                {{item.policeRecordTime}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--查询页面-->
+    <div class="tab-pane fade" id="query">
+
+        <table>
+            <tr>
+                <td>
+                    <input type="text" name="selectPhone" class="form-control" id="selectPhone" placeholder="请输入诈骗号码" ng-model="selectPhone" style="width:270px;">
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary" ng-click="select()" style="width:270px">查询</button>
+                </td>
+            </tr>
+        </table>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" style="table-layout:fixed;">
+                        <thead>
+                            <tr>
+                                <th>诈骗号码</th>
+                                <th>被骗用户</th>
+                                <th>诈骗类型</th>
+                                <th>最近一次通话时间</th>
+                                <th>双方通话频次</th>
+                                <th>回访情况</th>
+                                <th>受骗情况</th>
+                                <th>受骗金额</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="nowrap">
+                        <tr ng-repeat-start="item in queryList">
+                            <td rowspan="2">{{item.crmTele}}</td>
+                            <td rowspan="2">{{item.vicTele}}</td>
+                            <td>{{item.contentType}}</td>
+                            <td style="font-size: 13px">{{item.occurTime}}</td>
+                            <td>{{item.callFrequency}}</td>
+                            <td>{{item.callbackSituation}}</td>
+                            <td>{{item.fraudSituation}}</td>
+                            <td>{{item.fraudMoney}}</td>
+                            <td>{{item.recordTime}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">客服的回访描述：{{item.callbackDescription}}</td>
+                        </tr>
+                        <tr ng-repeat-end>
+                            <td>公安人员处理记录区</td>
+                            <td colspan="7">
+                                回访描述：{{item.policeCallback}}
+                            </td>
+                            <td>
+                                {{item.policeQueryTime}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
